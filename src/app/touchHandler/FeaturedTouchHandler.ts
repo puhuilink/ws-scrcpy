@@ -57,9 +57,9 @@ export class FeaturedTouchHandler extends TouchHandler {
             return;
         }
         if (e.cancelable) {
-            e.preventDefault();
+            // e.preventDefault();
         }
-        e.stopPropagation();
+        // e.stopPropagation();
         messages.forEach((message) => {
             this.listener.sendMessage(message);
         });

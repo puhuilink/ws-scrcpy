@@ -64,9 +64,9 @@ export class SimpleTouchHandler extends TouchHandler {
             }
             if (handled) {
                 if (e.cancelable) {
-                    e.preventDefault();
+                    // e.preventDefault();
                 }
-                e.stopPropagation();
+                // e.stopPropagation();
             }
         }
         if (e.type === 'mouseup') {

@@ -91,7 +91,7 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
         const streamReceiver = new StreamReceiver(ip, port, query);
         const playerName: string = typeof player === 'string' ? player : (decoder as string);
         const client = new StreamClientScrcpy(streamReceiver);
-        client.startStream({ udid, playerName });
+        client.startStream({ udid, playerName, fitToScreen: true });
         return client;
     }
 
@@ -276,10 +276,10 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
         droidMoreBox.setOnStop(stop);
         const droidToolBox = DroidToolBox.createToolBox(udid, player, this, moreBox);
         this.controlButtons = droidToolBox.getHolderElement();
-        deviceView.appendChild(this.controlButtons);
         const video = document.createElement('div');
         video.className = 'video';
         deviceView.appendChild(video);
+        deviceView.appendChild(this.controlButtons);
         deviceView.appendChild(moreBox);
         player.setParent(video);
         player.pause();
@@ -289,6 +289,23 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
             const newBounds = this.getMaxSize();
             if (newBounds) {
                 videoSettings = StreamClientScrcpy.createVideoSettingsWithBounds(videoSettings, newBounds);
+                document.body.dispatchEvent(new CustomEvent('bounds', { detail: newBounds }));
+                if (window.parent) {
+                    const { controlButtons } = this;
+                    setTimeout(() => {
+                        window.parent.postMessage(
+                            {
+                                type: 'bounds',
+                                payload: {
+                                    contentWidth: video.clientWidth,
+                                    contentHeight: video.clientHeight,
+                                    offsetWidth: controlButtons.clientWidth,
+                                },
+                            },
+                            '*',
+                        );
+                    }, 100);
+                }
             }
         }
         this.applyNewVideoSettings(videoSettings, false);
@@ -344,8 +361,8 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
             return;
         }
         const body = document.body;
-        const width = (body.clientWidth - this.controlButtons.clientWidth) & ~15;
-        const height = body.clientHeight & ~15;
+        const width = body.clientWidth - this.controlButtons.clientWidth;
+        const height = body.clientHeight;
         return new Size(width, height);
     }
 

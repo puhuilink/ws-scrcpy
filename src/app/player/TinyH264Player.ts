@@ -22,8 +22,8 @@ export class TinyH264Player extends BaseCanvasBasedPlayer {
     private static videoStreamId = 1;
     public static readonly preferredVideoSettings: VideoSettings = new VideoSettings({
         lockedVideoOrientation: -1,
-        bitrate: 524288,
-        maxFps: 24,
+        bitrate: 5242880,
+        maxFps: 60,
         iFrameInterval: 5,
         bounds: new Size(480, 480),
         sendFrameMeta: false,

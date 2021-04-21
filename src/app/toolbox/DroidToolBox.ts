@@ -93,6 +93,11 @@ export class DroidToolBox extends ToolBox {
         });
         elements.push(keyboard);
 
+        if (window.parent) {
+            const refresh = new ToolBoxButton('Refresh', SvgImage.Icon.REFRESH);
+            elements.push(refresh);
+        }
+
         if (moreBox) {
             const displayId = player.getVideoSettings().displayId;
             const id = `show_more_${udid}_${playerName}_${displayId}`;

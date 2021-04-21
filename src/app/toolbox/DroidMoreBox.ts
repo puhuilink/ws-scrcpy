@@ -36,6 +36,7 @@ export class DroidMoreBox {
         input.classList.add('text-area');
         const sendButton = document.createElement('button');
         sendButton.innerText = 'Send as keys';
+        sendButton.id = 'send-as-keys';
 
         const inputWrapper = DroidMoreBox.wrap('p', [input, sendButton], moreBox);
         sendButton.onclick = () => {

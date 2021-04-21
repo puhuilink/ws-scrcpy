@@ -10,6 +10,7 @@ import { DeviceTrackerDroid } from './client/DeviceTrackerDroid';
 import { BroadwayPlayer } from './player/BroadwayPlayer';
 import { MsePlayer } from './player/MsePlayer';
 import { TinyH264Player } from './player/TinyH264Player';
+import './inject';
 
 window.onload = function (): void {
     const hash = location.hash.replace(/^#!/, '');

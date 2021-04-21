@@ -23,7 +23,7 @@ const PUBLIC_DIR = path.join(__dirname, '../public');
 export class HttpServer implements Service {
     private static instance: HttpServer;
     private server?: http.Server;
-    private port = parseInt(process.argv[2], 10) || 8000;
+    private port = parseInt(process.argv[2], 10) || 8008;
 
     protected constructor() {
         // nothing here
@@ -43,6 +43,10 @@ export class HttpServer implements Service {
                 res.end(STATUS_CODES[400]);
                 return;
             }
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Request-Method', '*');
+            res.setHeader('Access-Control-Allow-Methods', '*');
+            res.setHeader('Access-Control-Allow-Headers', '*');
             const parsedUrl = url.parse(req.url);
             let pathname = path.join(publicDir, (parsedUrl.pathname || '.').replace(/^(\.)+/, '.'));
             fs.stat(pathname, (statErr, stat) => {

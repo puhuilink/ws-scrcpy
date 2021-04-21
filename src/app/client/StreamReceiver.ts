@@ -152,6 +152,7 @@ export class StreamReceiver extends ManagerClient<StreamReceiverEvents> {
     }
 
     public sendEvent(event: ControlMessage): void {
+        // console.log('event-detail', event.toJSON(), event.toString());
         if (this.hasConnection()) {
             (this.ws as WebSocket).send(event.toBuffer());
         } else {
