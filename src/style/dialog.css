@@ -1,10 +1,10 @@
 :root {
-    --block-top-padding: 0.5rem;
-    --block-bottom-padding: 0.5rem;
-    --button-top-padding: 0.2rem;
-    --button-bottom-padding: 0.2rem;
-    --header-height: 3rem;
-    --footer-height: 1.55rem;
+    --block-top-padding: 0;
+    --block-bottom-padding: 0;
+    --button-top-padding: 0;
+    --button-bottom-padding: 0;
+    --header-height: 0;
+    --footer-height: 0;
 }
 
 .dialog-background {

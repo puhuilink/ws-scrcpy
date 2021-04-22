@@ -171,6 +171,7 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         }
         if (!this.canvas) {
             const { width, height } = this.screenInfo.videoSize;
+            console.log('this.screenInfo.videoSize', { width, height });
             this.initCanvas(width, height);
             this.resetStats();
         }
@@ -186,6 +187,8 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         super.setScreenInfo(screenInfo);
         this.clearState();
         const { width, height } = screenInfo.videoSize;
+        console.log(screenInfo, 'screenInfo');
+        console.trace();
         this.initCanvas(width, height);
         this.framesList = [];
     }

@@ -289,7 +289,6 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
             const newBounds = this.getMaxSize();
             if (newBounds) {
                 videoSettings = StreamClientScrcpy.createVideoSettingsWithBounds(videoSettings, newBounds);
-                document.body.dispatchEvent(new CustomEvent('bounds', { detail: newBounds }));
                 if (window.parent) {
                     const { controlButtons } = this;
                     setTimeout(() => {

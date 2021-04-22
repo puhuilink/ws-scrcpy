@@ -74,6 +74,7 @@ function setup() {
                 data: { value: (textarea as HTMLTextAreaElement).value },
             },
         });
+        (textarea as HTMLTextAreaElement).value = '';
     });
     // @ts-ignore
     sendKeys?.innerText = '发送文本';
