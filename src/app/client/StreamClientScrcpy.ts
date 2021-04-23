@@ -303,7 +303,7 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
                             },
                             '*',
                         );
-                    }, 100);
+                    }, 300);
                 }
             }
         }

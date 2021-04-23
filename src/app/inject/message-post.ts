@@ -1,5 +1,7 @@
 import { WHITE_LIST } from './config';
 
+let origin: string;
+
 function setup() {
     const elements = Array.from(document.getElementsByClassName('control-button'));
     elements.forEach((element) => {
@@ -91,9 +93,21 @@ function setup() {
 }
 
 function postMessage(data: any) {
-    window.parent.postMessage(data, window.parent.origin);
+    window.parent.postMessage(data, origin);
 }
 
-if (WHITE_LIST.includes(window.parent.origin)) {
-    setTimeout(setup, 2000);
+window.addEventListener('message', (event) => {
+    if (typeof event.data !== 'object') return;
+    if (window.parent !== window && WHITE_LIST.includes(event.origin)) {
+    }
+});
+
+if (window.parent !== window) {
+    window.addEventListener('message', (event) => {
+        if (typeof event.data !== 'object') return;
+        if (WHITE_LIST.includes(event.origin) && event.data.type === 'init') {
+            origin = event.origin;
+            setTimeout(setup, 2000);
+        }
+    });
 }
