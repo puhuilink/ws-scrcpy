@@ -289,7 +289,7 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
             const newBounds = this.getMaxSize();
             if (newBounds) {
                 videoSettings = StreamClientScrcpy.createVideoSettingsWithBounds(videoSettings, newBounds);
-                if (window.parent) {
+                if (window.parent !== window) {
                     const { controlButtons } = this;
                     setTimeout(() => {
                         window.parent.postMessage(
@@ -303,7 +303,7 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
                             },
                             '*',
                         );
-                    }, 300);
+                    }, 1000);
                 }
             }
         }

@@ -187,8 +187,8 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         super.setScreenInfo(screenInfo);
         this.clearState();
         const { width, height } = screenInfo.videoSize;
-        console.log(screenInfo, 'screenInfo');
-        console.trace();
+        // console.log(screenInfo, 'screenInfo');
+        // console.trace();
         this.initCanvas(width, height);
         this.framesList = [];
     }
