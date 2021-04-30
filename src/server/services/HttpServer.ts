@@ -23,7 +23,7 @@ const PUBLIC_DIR = path.join(__dirname, '../public');
 export class HttpServer implements Service {
     private static instance: HttpServer;
     private server?: http.Server;
-    private port = parseInt(process.argv[2], 10) || 8008;
+    private port = parseInt(process.argv[2], 10) || 8000;
 
     protected constructor() {
         // nothing here
