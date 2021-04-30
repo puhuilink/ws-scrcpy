@@ -20,14 +20,28 @@ export class TinyH264Player extends BaseCanvasBasedPlayer {
     public static readonly playerFullName = 'Tiny H264';
     public static readonly playerCodeName = 'tinyh264';
     private static videoStreamId = 1;
-    public static readonly preferredVideoSettings: VideoSettings = new VideoSettings({
-        lockedVideoOrientation: -1,
-        bitrate: 5242880,
-        maxFps: 60,
-        iFrameInterval: 5,
-        bounds: new Size(480, 480),
-        sendFrameMeta: false,
-    });
+    public static get preferredVideoSettings(): VideoSettings {
+        console.log(process.env.platform);
+        if (process.env.platform === 'testwa-cloud') {
+            return new VideoSettings({
+                lockedVideoOrientation: -1,
+                bitrate: 524288,
+                maxFps: 24,
+                iFrameInterval: 5,
+                bounds: new Size(480, 480),
+                sendFrameMeta: false,
+            });
+        } else {
+            return new VideoSettings({
+                lockedVideoOrientation: -1,
+                bitrate: 5242880,
+                maxFps: 60,
+                iFrameInterval: 5,
+                bounds: new Size(480, 480),
+                sendFrameMeta: false,
+            });
+        }
+    }
 
     private worker?: TinyH264Worker;
     private isDecoderReady = false;

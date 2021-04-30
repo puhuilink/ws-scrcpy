@@ -139,6 +139,8 @@ export class DroidMoreBox {
                     }
                 }
                 btn.innerText = CommandControlMessage.CommandNames[action];
+                // @ts-ignore
+                btn.id = CommandControlMessage.CommandNames[action].replaceAll(' ', '');
                 if (action === ControlMessage.TYPE_CHANGE_STREAM_PARAMETERS) {
                     btn.onclick = () => {
                         const bitrate = parseInt(bitrateInput.value, 10);
@@ -242,6 +244,25 @@ export class DroidMoreBox {
         player.on('video-view-resize', this.onViewVideoResize);
         player.on('video-settings', this.onVideoSettings);
         this.holder = moreBox;
+
+        if (process.env.platform) {
+            let btn: HTMLElement;
+            window.addEventListener('message', ({ data }) => {
+                if (typeof data !== 'object') return;
+                const { type } = data;
+                switch (type) {
+                    case 'fit': {
+                        this.fit();
+                        btn = btn || document.getElementById('Changevideosettings');
+                        btn?.click();
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            });
+        }
     }
 
     private onViewVideoResize = (size: Size): void => {

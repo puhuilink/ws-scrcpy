@@ -88,7 +88,7 @@ export class StreamClientScrcpy extends BaseClient<never> implements KeyEventLis
 
     // TODO: remove deprecated method
     public static createFromParam({ udid, player, decoder, ip, port, query }: ScrcpyStreamParams): StreamClientScrcpy {
-        const streamReceiver = new StreamReceiver(ip, port, query);
+        const streamReceiver = new StreamReceiver(ip, port, udid, query);
         const playerName: string = typeof player === 'string' ? player : (decoder as string);
         const client = new StreamClientScrcpy(streamReceiver);
         client.startStream({ udid, playerName, fitToScreen: true });

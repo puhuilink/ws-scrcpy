@@ -93,7 +93,7 @@ export class DroidToolBox extends ToolBox {
         });
         elements.push(keyboard);
 
-        if (window.parent) {
+        if (process.env.platform === 'testwa-gen') {
             const refresh = new ToolBoxButton('Refresh', SvgImage.Icon.REFRESH);
             elements.push(refresh);
         }

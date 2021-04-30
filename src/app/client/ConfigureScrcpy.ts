@@ -79,7 +79,7 @@ export class ConfigureScrcpy extends BaseClient<ConfigureScrcpyEvents> {
             this.detachEventsListeners(this.streamReceiver);
             this.streamReceiver.stop();
         }
-        this.streamReceiver = new StreamReceiver(this.ipv4, this.port, this.query);
+        this.streamReceiver = new StreamReceiver(this.ipv4, this.port, this.udid, this.query);
         this.attachEventsListeners(this.streamReceiver);
     }
 

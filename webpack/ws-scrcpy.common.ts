@@ -3,6 +3,7 @@ import path from 'path';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import merge from 'webpack-merge';
 
 export const PROJECT_ROOT = path.resolve(__dirname, '..');
 export const SERVER_DIST_PATH = path.join(PROJECT_ROOT, 'dist/server');
@@ -63,6 +64,13 @@ export const common: webpack.Configuration = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.platform': JSON.stringify(
+                process.env.platform === 'testwa-cloud' ? 'testwa-cloud' : 'testwa-gen',
+            ),
+        }),
+    ],
 };
 
 const front: webpack.Configuration = {
@@ -81,7 +89,7 @@ const front: webpack.Configuration = {
     },
 };
 
-export const frontend = Object.assign({}, common, front);
+export const frontend = merge({}, common, front);
 
 const back: webpack.Configuration = {
     entry: path.join(PROJECT_ROOT, './src/server/index.ts'),
@@ -98,4 +106,4 @@ const back: webpack.Configuration = {
     target: 'node',
 };
 
-export const backend = Object.assign({}, common, back);
+export const backend = merge({}, common, back);

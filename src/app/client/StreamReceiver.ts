@@ -47,6 +47,7 @@ export class StreamReceiver extends ManagerClient<StreamReceiverEvents> {
     constructor(
         private readonly host: string,
         private readonly port: number | string,
+        private readonly udid: string,
         private readonly path = '/',
         private readonly query = '',
     ) {
@@ -200,8 +201,22 @@ export class StreamReceiver extends ManagerClient<StreamReceiverEvents> {
     }
 
     protected buildWebSocketUrl(): string {
-        const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-        const query = this.query ? this.query : this.action ? `?action=${this.action}` : '';
-        return `${proto}://${this.host}:${this.port}${this.path}${query}`;
+        if (process.env.platform === 'testwa-cloud') {
+            const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+            const query = this.query ? this.query : this.action ? `action=${this.action}` : '';
+            const url = `${proto}://${this.host}:${this.port}${this.path}${query}`;
+            // 连接的服务器
+            const { clientId, deviceName } = this;
+            console.log(`udid = ${this.udid},  url = ${url} ${clientId} ${deviceName}`);
+            // const pre_url = `ws://localhost:10010/socket.io/?EIO=3&transport=websocket&type=browser&deviceName=${deviceName}&clientId=${clientId}&udid=${this.udid}&${query}`;
+            const pre_url = `ws://139.9.146.248:8080/ws/display?deviceName=${deviceName}&clientId=${clientId}&udid=${this.udid}&${query}`;
+            console.log(`pre_url = ${pre_url}`);
+            return pre_url;
+            // return url;
+        } else {
+            const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+            const query = this.query ? this.query : this.action ? `?action=${this.action}` : '';
+            return `${proto}://${this.host}:${this.port}${this.path}${query}`;
+        }
     }
 }
