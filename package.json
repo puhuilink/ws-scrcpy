@@ -25,12 +25,15 @@
   "license": "MIT",
   "dependencies": {
     "@devicefarmer/adbkit": "^2.11.3",
+    "animejs": "^3.2.1",
     "node-pty": "^0.10.0",
     "portfinder": "^1.0.28",
     "tslib": "^1.9.3",
-    "ws": "^7.2.3"
+    "ws": "^7.2.3",
+    "xterm-theme": "^1.1.0"
   },
   "devDependencies": {
+    "@types/animejs": "^3.1.3",
     "@types/bluebird": "^3.5.32",
     "@types/mini-css-extract-plugin": "^1.2.2",
     "@types/node": "^12.0.2",

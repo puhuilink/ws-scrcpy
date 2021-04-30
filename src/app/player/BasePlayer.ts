@@ -5,6 +5,7 @@ import Size from '../Size';
 import Util from '../Util';
 import { TypedEmitter } from '../TypedEmitter';
 import { DisplayInfo } from '../DisplayInfo';
+import anime from 'animejs';
 
 interface BitrateStat {
     timestamp: number;
@@ -286,6 +287,7 @@ export abstract class BasePlayer extends TypedEmitter<PlayerEvents> {
 
     public setParent(parent: HTMLElement): void {
         this.parentElement = parent;
+        console.log(this.tag);
         parent.appendChild(this.tag);
         parent.appendChild(this.touchableCanvas);
     }
@@ -318,20 +320,32 @@ export abstract class BasePlayer extends TypedEmitter<PlayerEvents> {
     }
 
     public setScreenInfo(screenInfo: ScreenInfo): void {
+        console.log('setScreenInfo start');
         if (this.needScreenInfoBeforePlay()) {
             this.pause();
         }
         this.receivedFirstFrame = false;
         this.screenInfo = screenInfo;
         const { width, height } = screenInfo.videoSize;
-        this.touchableCanvas.width = width;
-        this.touchableCanvas.height = height;
+        anime({
+            targets: this.touchableCanvas,
+            width,
+            height,
+            duration: 150,
+            easing: 'linear',
+        });
         if (this.parentElement) {
-            this.parentElement.style.height = `${height}px`;
-            this.parentElement.style.width = `${width}px`;
+            anime({
+                targets: this.parentElement,
+                height,
+                width,
+                duration: 150,
+                easing: 'linear',
+            });
         }
         const size = new Size(width, height);
         this.emit('video-view-resize', size);
+        console.log('setScreenInfo end');
     }
 
     public getName(): string {

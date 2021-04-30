@@ -63,14 +63,11 @@ export class TinyH264Player extends BaseCanvasBasedPlayer {
     }
 
     protected initCanvas(width: number, height: number): void {
-        console.log('initCanvas');
         super.initCanvas(width, height);
 
         if (BaseCanvasBasedPlayer.hasWebGLSupport()) {
-            console.log('new YUVWebGLCanvas');
             this.canvas = new YUVWebGLCanvas(this.tag);
         } else {
-            console.log('new YUVCanvas');
             this.canvas = new YUVCanvas(this.tag);
         }
     }

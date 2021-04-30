@@ -3,12 +3,15 @@ import { ManagerClient } from './ManagerClient';
 import { Terminal } from 'xterm';
 import { AttachAddon } from 'xterm-addon-attach';
 import { FitAddon } from 'xterm-addon-fit';
+// @ts-ignore
+import { AdventureTime, Material } from 'xterm-theme';
 import { MessageXtermClient } from '../../common/MessageXtermClient';
 import { ACTION } from '../../server/Constants';
 import { ShellParams } from '../../common/ShellParams';
 import DroidDeviceDescriptor from '../../common/DroidDeviceDescriptor';
 import { BaseDeviceTracker } from './BaseDeviceTracker';
 import Util from '../Util';
+import anime from 'animejs';
 
 const TAG = '[ShellClient]';
 
@@ -27,7 +30,9 @@ export class ShellClient extends ManagerClient<never> {
         const ws = this.ws as WebSocket;
         this.setTitle(`Shell ${udid}`);
         this.setBodyClass('shell');
-        this.term = new Terminal();
+        this.term = new Terminal({
+            theme: Material,
+        });
         this.term.loadAddon(new AttachAddon(ws));
         this.fitAddon = new FitAddon();
         this.term.loadAddon(this.fitAddon);
@@ -93,8 +98,13 @@ export class ShellClient extends ManagerClient<never> {
                 2,
             ) + 'px';
         const height = (rows * term._core._renderService.dimensions.actualCellHeight).toFixed(2) + 'px';
-        terminalContainer.style.width = width;
-        terminalContainer.style.height = height;
+        anime({
+            targets: terminalContainer,
+            width,
+            height,
+            duration: 150,
+            easing: 'linear',
+        });
         this.fitAddon.fit();
     }
 

@@ -2,6 +2,8 @@ import { BasePlayer, PlaybackQuality } from './BasePlayer';
 import ScreenInfo from '../ScreenInfo';
 import VideoSettings from '../VideoSettings';
 import { DisplayInfo } from '../DisplayInfo';
+// @ts-ignore
+import anime from 'animejs';
 
 type DecodedFrame = {
     width: number;
@@ -147,11 +149,18 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         if (this.canvas) {
             const parent = this.tag.parentNode;
             if (parent) {
-                const tag = BaseCanvasBasedPlayer.createElement(this.tag.id);
-                tag.className = this.tag.className;
-                parent.replaceChild(tag, this.tag);
+                // const tag = BaseCanvasBasedPlayer.createElement(this.tag.id);
+                // tag.className = this.tag.className;
+                // parent.replaceChild(tag, this.tag);
+                // this.tag = tag;
+                anime({
+                    targets: this.tag,
+                    width,
+                    height,
+                    duration: 150,
+                    easing: 'linear',
+                });
                 parent.appendChild(this.touchableCanvas);
-                this.tag = tag;
             }
         }
         this.tag.onerror = (e: Event | string): void => {
@@ -160,8 +169,6 @@ export abstract class BaseCanvasBasedPlayer extends BasePlayer {
         this.tag.oncontextmenu = (e: MouseEvent): void => {
             e.preventDefault();
         };
-        this.tag.width = width;
-        this.tag.height = height;
     }
 
     public play(): void {

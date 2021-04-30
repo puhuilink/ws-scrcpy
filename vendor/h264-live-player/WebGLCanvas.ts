@@ -8,6 +8,7 @@ import Shader from './Shader';
 import { makePerspective } from './utils/glUtils';
 import Script from './Script';
 import Canvas from './Canvas';
+import anime from 'animejs';
 
 export default abstract class WebGLCanvas extends Canvas {
     protected static vertexShaderScript: Script = Script.createFromSource('x-shader/x-vertex', `
@@ -44,8 +45,13 @@ export default abstract class WebGLCanvas extends Canvas {
 
     constructor(readonly canvas: HTMLCanvasElement, readonly size: Size, useFrameBuffer: boolean) {
         super(canvas, size);
-        this.canvas.width = size.w;
-        this.canvas.height = size.h;
+        anime({
+            targets: this.canvas,
+            width: size.w,
+            height: size.h,
+            duration: 150,
+            easing: 'linear',
+        })
 
         this.onInitWebGL();
         this.onInitShaders();
