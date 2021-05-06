@@ -346,6 +346,22 @@ export abstract class BasePlayer extends TypedEmitter<PlayerEvents> {
         const size = new Size(width, height);
         this.emit('video-view-resize', size);
         console.log('setScreenInfo end');
+        if (window.parent !== window) {
+            const controlButtons = document.querySelector('.control-buttons-list');
+            setTimeout(() => {
+                window.parent.postMessage(
+                    {
+                        type: 'bounds',
+                        payload: {
+                            contentWidth: width,
+                            contentHeight: height,
+                            offsetWidth: controlButtons?.clientWidth,
+                        },
+                    },
+                    '*',
+                );
+            }, 166);
+        }
     }
 
     public getName(): string {
