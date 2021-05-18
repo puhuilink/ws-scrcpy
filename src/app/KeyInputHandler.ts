@@ -53,7 +53,7 @@ export class KeyInputHandler {
         KeyInputHandler.listeners.forEach((listener) => {
             listener.onKeyEvent(controlMessage);
         });
-        e.preventDefault();
+        // e.preventDefault();
     };
     private static attachListeners(): void {
         document.body.addEventListener('keydown', this.handler);

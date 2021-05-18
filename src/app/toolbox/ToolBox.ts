@@ -3,13 +3,17 @@ import { ToolBoxElement } from './ToolBoxElement';
 export class ToolBox {
     private readonly holder: HTMLElement;
 
-    constructor(list: ToolBoxElement<any>[]) {
+    constructor(list: any[]) {
         this.holder = document.createElement('div');
         this.holder.classList.add('control-buttons-list', 'control-wrapper');
         list.forEach((item) => {
-            item.getAllElements().forEach((el) => {
-                this.holder.appendChild(el);
-            });
+            if (item instanceof ToolBoxElement) {
+                item.getAllElements().forEach((el) => {
+                    this.holder.appendChild(el);
+                });
+            } else {
+                this.holder.appendChild(item);
+            }
         });
     }
 

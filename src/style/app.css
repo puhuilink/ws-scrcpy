@@ -104,6 +104,13 @@ body.stream {
     flex-direction: row;
 }
 
+.input-watcher {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
 .video-layer {
     position: absolute;
     z-index: 0;

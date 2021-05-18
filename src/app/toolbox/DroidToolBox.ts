@@ -66,7 +66,7 @@ export class DroidToolBox extends ToolBox {
             const event = new KeyCodeControlMessage(action, code, 0, 0);
             client.sendMessage(event);
         };
-        const elements: ToolBoxElement<any>[] = list.map((item) => {
+        const elements: any[] = list.map((item) => {
             const button = new ToolBoxButton(item.title, item.icon, {
                 code: item.code,
             });
@@ -74,6 +74,7 @@ export class DroidToolBox extends ToolBox {
             button.addEventListener('mouseup', handler);
             return button;
         });
+
         if (player.supportsScreenshot) {
             const screenshot = new ToolBoxButton('Take screenshot', SvgImage.Icon.CAMERA);
             screenshot.addEventListener('click', () => {
@@ -82,23 +83,72 @@ export class DroidToolBox extends ToolBox {
             elements.push(screenshot);
         }
 
-        const keyboard = new ToolBoxCheckbox(
-            'Capture keyboard',
-            SvgImage.Icon.KEYBOARD,
-            `capture_keyboard_${udid}_${playerName}`,
-        );
-        keyboard.addEventListener('click', (_, el) => {
-            const element = el.getElement();
-            client.setHandleKeyboardEvents(element.checked);
-        });
-        elements.push(keyboard);
-
         if (process.env.platform === 'testwa-gen') {
             const refresh = new ToolBoxButton('Refresh', SvgImage.Icon.REFRESH);
             elements.push(refresh);
         }
 
-        if (moreBox) {
+        const textarea = document.createElement('textarea');
+        textarea.className = 'input-watcher';
+        const keepFocus = () => textarea.focus();
+        elements.push(textarea);
+
+        const keyboard = new ToolBoxCheckbox(
+            'Capture keyboard',
+            SvgImage.Icon.KEYBOARD,
+            `capture_keyboard_${udid}_${playerName}`,
+        );
+        if (process.env.platform === 'testwa-gen') {
+            client.setHandleKeyboardEvents(true);
+        } else {
+            keyboard.addEventListener('click', (_, el) => {
+                const element = el.getElement();
+                client.setHandleKeyboardEvents(element.checked);
+            });
+            elements.push(keyboard);
+        }
+        if (process.env.platform === 'testwa-gen') {
+            const submit = new ToolBoxButton('Enter', SvgImage.Icon.SUBMIT);
+            submit.addEventListener('click', () => {
+                console.log(textarea.value);
+                window.parent.postMessage(
+                    {
+                        type: 'action',
+                        payload: {
+                            action: 'SendKeys',
+                            data: {
+                                value: textarea.value,
+                            },
+                        },
+                    },
+                    '*',
+                );
+            });
+            submit.getElement().style.display = 'none';
+            elements.push(submit);
+
+            window.addEventListener('message', ({ data }) => {
+                if (typeof data !== 'object') return;
+                const { type } = data as any;
+                switch (type) {
+                    case 'startInputWatcher':
+                        submit.getElement().style.display = 'inline-block';
+                        textarea.focus();
+                        textarea.addEventListener('blur', keepFocus);
+                        break;
+                    case 'stopInputWatcher':
+                        submit.getElement().style.display = 'none';
+                        textarea.removeEventListener('blur', keepFocus);
+                        textarea.blur();
+                        textarea.value = '';
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        if (moreBox && process.env.platform !== 'testwa-gen') {
             const displayId = player.getVideoSettings().displayId;
             const id = `show_more_${udid}_${playerName}_${displayId}`;
             const more = new ToolBoxCheckbox('More', SvgImage.Icon.MORE, id);
