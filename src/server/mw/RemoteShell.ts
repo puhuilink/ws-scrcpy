@@ -1,8 +1,10 @@
 import { Mw, RequestParameters } from './Mw';
 import WebSocket from 'ws';
+// @ts-ignore
 import * as pty from 'node-pty';
-import * as os from 'os';
+// @ts-ignore
 import { IPty } from 'node-pty';
+import * as os from 'os';
 import { Message } from '../../common/Message';
 import { XtermClientMessage, XtermServiceParameters } from '../../common/XtermMessage';
 import { ACTION } from '../Constants';

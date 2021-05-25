@@ -5,7 +5,7 @@ import { Service, ServiceClass } from './services/Service';
 import { AndroidDeviceTracker } from './services/AndroidDeviceTracker';
 import { DeviceTracker } from './mw/DeviceTracker';
 import { MwFactory } from './mw/Mw';
-import { RemoteShell } from './mw/RemoteShell';
+// import { RemoteShell } from './mw/RemoteShell';
 import { WebsocketProxy } from './mw/WebsocketProxy';
 import { RemoteDevtools } from './mw/RemoteDevtools';
 
@@ -18,7 +18,12 @@ servicesToStart.forEach((serviceClass: ServiceClass) => {
     service.start();
 });
 
-const mwList: MwFactory[] = [DeviceTracker, RemoteShell, WebsocketProxy, RemoteDevtools];
+const mwList: MwFactory[] = [
+    DeviceTracker,
+    // RemoteShell,
+    WebsocketProxy,
+    RemoteDevtools,
+];
 const wsService = WebSocketServer.getInstance();
 mwList.forEach((mwFactory: MwFactory) => {
     wsService.registerMw(mwFactory);
