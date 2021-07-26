@@ -20,3 +20,10 @@ device <-GRPC-> Serve（服务器） <-公网-> 平台
 npm run build:testwa-cloud
 npm run start:dist 8000
 ```
+
+## FAQ
+
+- [File push does not work in Safari](https://github.com/NetrisTV/ws-scrcpy/issues/84)
+- [add keyboard event](https://github.com/NetrisTV/ws-scrcpy/issues/7)
+- [change default screen size](https://github.com/NetrisTV/ws-scrcpy/issues/28)
+- [Where is calculating mouse x and mouse y for tap or swipe](https://github.com/NetrisTV/ws-scrcpy/issues/79)
